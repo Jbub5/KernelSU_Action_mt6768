@@ -71,21 +71,21 @@ Inject parameters into the defconfig automatically.
 
 #### KSU_HOOKS_PATCH
 
-If kprobe does not work in your kernel, then try enabling this parameter, this will automatically modify kernel source code to support KernelSU.  
+If kprobe does not work in your kernel, then try enabling this option, this will automatically modify kernel source code to support KernelSU.  
 
 See also: [Intergrate for non-GKI devices](https://kernelsu.org/guide/how-to-integrate-for-non-gki.html#manually-modify-the-kernel-source)
 
 ### ADD_OVERLAYFS_CONFIG
 
-This parameter provides support for overlayfs. Inject parameters into defconfig automatically.
+This option provides support for overlayfs. Inject parameters into defconfig automatically.
 
 ### ADD_APATCH_SUPPORT
 
-This parameter provides support for overlayfs. Inject parameters into defconfig automatically.
+This option provides support for overlayfs. Inject parameters into defconfig automatically.
 
 #### FIX_APATCH_OPENELA
 
-This parameter provides fix for https://github.com/bmax121/APatch/issues/400.
+This option provides fix for https://github.com/bmax121/APatch/issues/400.
 
 
 ### USE_CUSTOM_CLANG
@@ -188,6 +188,11 @@ LTO is used to optimize the kernel but sometimes causes errors.
 
 Sometimes even a harmless warning breaks the build.
 
+### FIX_MOBILE_DATA
+
+On some devices, the phone freezes when you turn on mobile data. If you have this problem, set this option to true.
+
+> This setting is not enabled by default due to spontaneous reboot when wifi is turned on on some devices.
 
 ### REMOVE_UNUSED_PACKAGES
 
