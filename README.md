@@ -188,6 +188,11 @@ LTO is used to optimize the kernel but sometimes causes errors.
 
 Sometimes even a harmless warning breaks the build.
 
+### FIX_MOBILE_DATA
+
+On some devices, the phone freezes when you turn on mobile data. If you have this problem, set this option to true.
+
+> This setting is not enabled by default due to spontaneous reboot when wifi is turned on on some devices.
 
 ### REMOVE_UNUSED_PACKAGES
 

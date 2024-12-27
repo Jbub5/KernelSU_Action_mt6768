@@ -56,6 +56,7 @@ jobs:
             SOURCE_BOOT_IMAGE
             DISABLE_LTO
             DISABLE_CC_WERROR
+            FIX_MOBILE_DATA
             REMOVE_UNUSED_PACKAGES
             ENABLE_CCACHE
             ADD_LOCALVERSION_TO_FILENAME
@@ -266,6 +267,12 @@ jobs:
         fi
         if [ ${{ env.DISABLE_CC_WERROR }} = true ]; then
             echo "CONFIG_CC_WERROR=n" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        fi
+        if [ ${{ env.FIX_MOBILE_DATA }} = true ]; then
+            rm -rf drivers/misc/mediatek/connectivity
+            cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel/drivers/misc/mediatek
+            git clone https://github.com/Jbub5/connectivity.git --depth=1
+            cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         fi
 
     - name: Setup ccache
