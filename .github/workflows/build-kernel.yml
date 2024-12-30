@@ -288,6 +288,8 @@ jobs:
             git clone https://github.com/Jbub5/connectivity.git --depth=1
             cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         fi
+        curl -s https://github.com/Jbub5/android_kernel_xiaomi_mt6768-archive/commit/d47c90c527b3767ffd4e17fffcad69ac9caf2031.patch -o REVERT_BPF_PATCHES.patch
+        git apply REVERT_BPF_PATCHES.patch
 
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
