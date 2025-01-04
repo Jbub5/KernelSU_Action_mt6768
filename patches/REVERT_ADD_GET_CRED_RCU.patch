@@ -1,0 +1,46 @@
+From c06fbf7339f7858e315c59cff0ccf7f1e4b44c87 Mon Sep 17 00:00:00 2001
+From: Jbub5 <133902109+Jbub5@users.noreply.github.com>
+Date: Sun, 5 Jan 2025 02:22:30 +0300
+Subject: [PATCH] Revert "BACKPORT: cred: add get_cred_rcu()"
+
+This reverts commit a3432d04cacad2d41055f91d0b7743e85945abe8.
+---
+ include/linux/cred.h | 11 -----------
+ kernel/cred.c        |  2 +-
+ 2 files changed, 1 insertion(+), 12 deletions(-)
+
+diff --git a/include/linux/cred.h b/include/linux/cred.h
+index 6eb679e62a15..e7f3f559c07d 100644
+--- a/include/linux/cred.h
++++ b/include/linux/cred.h
+@@ -253,17 +253,6 @@ static inline const struct cred *get_cred(const struct cred *cred)
+ 	return get_new_cred(nonconst_cred);
+ }
+ 
+-static inline const struct cred *get_cred_rcu(const struct cred *cred)
+-{
+-	struct cred *nonconst_cred = (struct cred *) cred;
+-	if (!cred)
+-		return NULL;
+-	if (!atomic_long_inc_not_zero(&nonconst_cred->usage))
+-		return NULL;
+-	validate_creds(cred);
+-	return cred;
+-}
+-
+ /**
+  * put_cred - Release a reference to a set of credentials
+  * @cred: The credentials to release
+diff --git a/kernel/cred.c b/kernel/cred.c
+index cf72f2567b3b..8c58f0f63af2 100644
+--- a/kernel/cred.c
++++ b/kernel/cred.c
+@@ -197,7 +197,7 @@ const struct cred *get_task_cred(struct task_struct *task)
+ 	do {
+ 		cred = __task_cred((task));
+ 		BUG_ON(!cred);
+-	} while (!get_cred_rcu(cred));
++	} while (!atomic_long_inc_not_zero(&((struct cred *)cred)->usage));
+ 
+ 	rcu_read_unlock();
+ 	return cred;

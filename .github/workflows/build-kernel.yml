@@ -215,7 +215,10 @@ jobs:
                 sed -i 's/CONFIG_KALLSYMS_BASE_RELATIVE=n/CONFIG_KALLSYMS_BASE_RELATIVE=y/g' arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
                 echo "CONFIG_KALLSYMS_BASE_RELATIVE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
                 if [ ${{ env.FIX_APATCH_OPENELA }} = true ]; then
+                    git apply $GITHUB_WORKSPACE/patches/FIX_APATCH_OPENELA.patch || {
+                    git apply $GITHUB_WORKSPACE/patches/REVERT_ADD_GET_CRED_RCU.patch
                     git apply $GITHUB_WORKSPACE/patches/FIX_APATCH_OPENELA.patch
+                    }
                 fi
         fi
         if [ ${{ env.DISABLE_LTO }} = true ]; then
