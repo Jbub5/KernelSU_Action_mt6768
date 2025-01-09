@@ -239,6 +239,12 @@ jobs:
                 echo "CONFIG_MMC_CRYPTO_LEGACY=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
             fi
         fi
+        if [ ${{ env.FIX_WIFI_SPEED }} = true ]; then
+            rm -rf drivers/misc/mediatek/connectivity
+            cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel/drivers/misc/mediatek
+            git clone https://github.com/Jbub5/connectivity.git --depth=1
+            cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        fi
 
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
